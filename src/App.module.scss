@@ -1,0 +1,62 @@
+.div-container {
+
+    width:  500px;
+    border:  10px;
+    background-color: salmon;
+    padding: 20px;
+    margin: 20px;
+    
+}
+
+.li-box {
+
+    width: 20px;
+    height: 10px;
+    text-decoration: none;
+}
+
+.div-color { 
+
+    width: 70px;
+    background-color: grey;
+    display: inline-block;
+    margin-right: 20px;
+    padding: 10px;
+}
+
+
+.input-todo {
+    margin: 10px;
+   height: 30px;
+    width: 200px;
+}
+
+.li-todos {
+    list-style-type: none;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.li-todo {
+    text-decoration: none;
+}
+
+.li-done { 
+    text-decoration: line-through;
+}
+
+.li-button { 
+    width: 70px;
+    height: 30px;
+    margin-left: 20px;
+    
+}
+
+.button-done {
+    background-color: gray;
+}
+
+
+.button-todo {
+    background-color: white;
+}
