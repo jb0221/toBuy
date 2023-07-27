@@ -19,27 +19,22 @@ const Tab = ({data, fnc, activeIdx})=>{
        }
     ]
     return (
-
-        <>
             <div>
                 <ul>
                     {
-                        tabData.map((item,idx)=>{
+                        tabData.map((obj,idx)=>{
                             return (
-                                <>
-                                    <li key= {`tab_${item.id}`}>
-                                        <span>{item.name}</span>
+                                
+                                    <li key={idx}>
+                                        <span>{obj.name}</span>
                                     </li>
-                                </>
+                                
 
                             )
                         })
                     }
                 </ul>
             </div>
-        </>
     )
-
 }
-
 export default Tab;

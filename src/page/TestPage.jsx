@@ -123,7 +123,7 @@ function DivColor ({color}){
           {
             store.map((obj, idx)=>{ 
                 return (
-                      <li key={`${obj.item}+idx`}>
+                      <li key={idx}>
                         <span>{obj.item}</span>
                         <span>{obj.stock}</span>
                         <button onClick={(e)=>{fncStockChange(obj.id, 'plus')}}>+</button>
