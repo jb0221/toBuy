@@ -17,7 +17,40 @@ function App() {
   const [todoColor, setTodoColor] = useState();
   const [todos, setTodos] = useState(todosData);
 
+  const [testObj, setTestObj] = useState({
+    title :'test',
+    date:'20230727'
+  })
+
+  const [testArr, setTestArr] = useState(
+    [{name : 'jane', age: '20'},{name : 'paul', age: '26'}]
+  )
+
+  const [testArr2, setTestArr2] = useState(
+
+    [{time: 'night', status :'good'}, {time: 'morning', status :'soso'}]
+  )
+
+  const testOnclick = ()=>{
+    setTestObj((prev)=>{ 
+      return {...prev, title : 'tesrt2' }
+    })
+
+    console.log("testOnclick" + testObj);
+  }
+
+  const testAerOnclick = ()=>{ 
+    setTestArr((prev)=>{
+        return [...prev, {name : 'heizle', age: '21'}]
+    });
+    console.log("testAerOnclick" +testArr);
+
+  }
+
+  const testArrModify =()=>{
   
+  
+  }
   // 새로운 todoList 추가 시
   const addTodoListHandler = (val)=>{ 
 
@@ -25,13 +58,49 @@ function App() {
 
   }
   // todoLIst 완료 버튼 클릭 시 
-  const doneClickHandler = useCallback((val)=>{ setTodos(val)}, [todos])
+  const doneClickHandler = useCallback((val)=>{ setTodos(val)}, [todos]);
 
 
+  const [store, setStore] = useState(
+    [{item :'butter', stock : 2, id:'butter123'} , {item :'cheeze', stock : 1, id:'cheeze123'}, 
+     {item :'milk', stock : 7, id:'milk123'}]
+  )
+
+
+  const fncStockChange =(val, type)=>{ 
+    
+      let temp = [...store];
+      let idx = store.findIndex((item,idx)=>{ return  item.id === val});
+      temp[idx].stock =  type ==='plus' ?  ++temp[idx].stock : --temp[idx].stock;
+      setStore(temp);
+      
+  }
+  
   return (
     <div className="App"> 
         <div className={AppStyle['div-container']}>
           <h2> </h2>
+          <button onClick={testOnclick}>추가 테스트</button>
+          <button onClick={testAerOnclick}>배열 추가 테스트2</button>
+          <button onClick= {testArrModify}>수정 테스트 </button>
+
+          <ul>
+          {
+            store.map((obj, idx)=>{ 
+                return (
+                      <li key={`${obj.item}+idx`}>
+                        <span>{obj.item}</span>
+                        <span>{obj.stock}</span>
+                        <button onClick={(e)=>{fncStockChange(obj.id, 'plus')}}>+</button>
+                        <button onClick={(e)=>{fncStockChange(obj.id, 'minus')}}>-</button>
+                      </li>         
+                )
+            })
+          }
+
+          </ul>
+          
+
           <DivColor color={'lightgreen'}></DivColor>
           <DivColor color={'pink'}></DivColor>
           <DivColor color={'skyblue'}></DivColor>
