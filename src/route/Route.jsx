@@ -7,6 +7,7 @@ import MainPage from '../page/MainPage';
 import DetailPage from '../page/DetailPage';
 import ItemPage from '../page/ItemPage';
 import TestPage from '../page/TestPage';
+import SamplePage from '../page/SamplePage';
 const Route = ()=>{ 
 
     const elements  = [ 
@@ -30,6 +31,10 @@ const Route = ()=>{
         {
             path : "/TestPage/*",
             element : <TestPage/>
+        },
+        {
+            path : "/SamplePage/*",
+            element : <SamplePage/>
         }
     ];
     

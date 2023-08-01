@@ -1,0 +1,132 @@
+.ul {
+    list-style-type: none;
+}
+
+.container {
+    border: 2px solid ;
+    width : 420px;
+    //padding-left: 40px;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.container input {
+    width: 20px;
+    height: 20px;
+    padding-top: 2px;
+    
+}
+
+.allCheck {
+    text-align: right;
+    padding-right: 20px;
+}
+/* 탭 해더 영역*/
+
+.TabHeader-ul { 
+    list-style-type: none;
+    display: flex;  
+  
+
+} 
+.TabHeader-li {
+   color: gray;
+   font-weight: bold;
+   display: inline-block;
+   margin: 0 5px;
+   
+
+}
+
+.TabHeader-li-active {
+    color: black;
+    font-weight: bold;
+    display: block;
+    margin: 0 5px;
+    text-decoration: underline;
+
+}
+.active {
+    color: green;
+}
+
+/* 계좌 보드 영역*/
+.AccountBoard-div {
+    width: 400px;
+    height: 100px;
+    //background-color: lightgray;
+    text-align: left;
+    //padding: 2px 10px;
+    margin: 0px 10px;
+   
+    border: 2px;
+    border-bottom: 2px solid gray;
+
+}
+
+.AccountBoard-div p {
+    font-weight: bold;
+    //color : gray;
+
+}
+.AccountBoard-title {
+    display: block;
+}
+
+.AccountBoard-span { 
+    padding-right: 5px;
+}
+
+.AccountBoard-input { 
+    padding-left: 200px;
+
+}
+
+
+
+/* 알아두세요 영역 */
+.Notice-div {
+    text-align: left;
+    width: 400px;
+    height: 200px;
+    border: 1px;
+    padding: 10px;
+ 
+}
+
+.Notice-div-hide {
+    text-align: left;
+    width: 400px;
+    height: 50px;
+    border: 1px;
+    padding: 10px;
+ 
+}
+
+/*계좌 보드 영역 화살표 */
+
+.ArrowDown {
+    padding-left: 200px;
+}
+
+.ArrowUp {
+    padding-left: 200px;
+}
+.Notice-p {
+    padding-left: 40px;
+}
+
+
+// 버튼 
+.toRegiBtn {
+  
+}
+
+.toUnRegiBtn {
+   
+}
+
+.btn {
+    width : 100%;
+    background-color: gray;
+}
