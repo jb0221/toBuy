@@ -8,6 +8,7 @@ import DetailPage from '../page/DetailPage';
 import ItemPage from '../page/ItemPage';
 import TestPage from '../page/TestPage';
 import SamplePage from '../page/SamplePage';
+import SamplePage2 from "../page/SamplePage2";
 const Route = ()=>{ 
 
     const elements  = [ 
@@ -35,6 +36,10 @@ const Route = ()=>{
         {
             path : "/SamplePage/*",
             element : <SamplePage/>
+        },
+        {
+            path : "/SamplePage2/*",
+            element : <SamplePage2/>
         }
     ];
     

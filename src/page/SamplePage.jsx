@@ -5,6 +5,7 @@ import { useState } from 'react';
 import React, { cloneElement, Children } from 'react'; 
 
 const SamplePage =()=>{ 
+    
 
     // 탭 헤더
     const [activeTab, setActiveTab] = useState(0);
@@ -19,8 +20,22 @@ const SamplePage =()=>{
     }
 
     // 전체 체크 여부 
-    const [allChecked, setAllChecked] = useState(false);
+    // 1. 개별 체크박스 상태 저장할 배열
+    // 2. onChange를 통해 전체 체크를 하는 함수
+    // 3. onChange를 통해 개별 체크를 하는 함수 
     
+    const [allChecked, setAllChecked] = useState(false);    // 전체 체크 여부
+    const [checkedList, setCheckdList] = useState([]);      // 체크된 리스트
+
+    const handleChkAll = ()=>{ 
+        let len =  activeTab===0? 2: 3;
+    
+    };
+
+    const handleChkSingle =(e)=>{
+        
+    }
+
 
     const tabData = [
         {title :'등록 출금 계좌', active: true,},
@@ -48,14 +63,15 @@ const SamplePage =()=>{
                 </div>
                 <TabWrapper activeTab={activeTab}>
                     <TabPanel>
-                        <AccountBoard data={registData}></AccountBoard>
+                        <AccountBoard data={registData} handleChkSingle={handleChkSingle}></AccountBoard>
                     </TabPanel>
                     <TabPanel>
-                         <AccountBoard data={unRegistData}></AccountBoard>
+                         <AccountBoard data={unRegistData} handleChkSingle={handleChkSingle}></AccountBoard>
                     </TabPanel>
                 </TabWrapper>   
                 <Notice noticeShow={noticeShow} handleNoticeOnclick={handleNoticeOnclick}/>
                 {/* //<button className={activeTab===0? Style["toRegiBtn"]  : Style["toUnRegiBtn"]} */}
+                <input type="checkbox" id="tell"></input>
                 <button disabled className={Style["btn"]}
                 >
                     {activeTab===0 ? '등록해지': '등록'}</button>
@@ -94,7 +110,7 @@ function TabHeader ({data, fncTabClick,activeTab}){
 
     )
 }
-function AccountBoard({data}){
+function AccountBoard({data, handleChkSingle}){
 
     return (
         <div className={Style["AccountBoard-container"]}>
@@ -105,7 +121,9 @@ function AccountBoard({data}){
                             <div className={Style["AccountBoard-div"]} key={idx}>
                                 <p>{obj.title}</p>
                                 <span className={Style["AccountBoard-span"]}>{obj.acctNo}</span>
-                                <input className={Style["AccountBoard-input"]} type="checkbox"></input>
+                                <input className={Style["AccountBoard-input"]} type="checkbox"
+                                    onClick={(e)=>{handleChkSingle(e)}}
+                                ></input>
                             </div>
                         )
                     })
