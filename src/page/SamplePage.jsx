@@ -1,11 +1,12 @@
 import Style from './SamplePage.module.scss';
 import { ReactComponent as ArrowDown} from './../styles/images/icon-arrow-down12.svg'
 import { ReactComponent as ArrowUp } from './../styles/images/icon-arrow-up-24.svg'
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import React, { cloneElement, Children } from 'react'; 
 
 const SamplePage =()=>{ 
     
+    const parentInput = useRef();
 
     // 탭 헤더
     const [activeTab, setActiveTab] = useState(0);
@@ -19,23 +20,41 @@ const SamplePage =()=>{
         setNoticeShow(!noticeShow);
     }
 
-    // 전체 체크 여부 
-    // 1. 개별 체크박스 상태 저장할 배열
-    // 2. onChange를 통해 전체 체크를 하는 함수
-    // 3. onChange를 통해 개별 체크를 하는 함수 
-    
-    const [allChecked, setAllChecked] = useState(false);    // 전체 체크 여부
-    const [checkedList, setCheckdList] = useState([]);      // 체크된 리스트
 
-    const handleChkAll = ()=>{ 
-        let len =  activeTab===0? 2: 3;
+    const [checkedList, setCheckedList] = useState(['44546']);
+    //const [isAllchecked,setIsAllChecked] = useState(false);
     
+
+    //전체선택
+    const handleOnchangeAll = (e)=>{ 
+             
+        if(!e.target.checked){
+            setCheckedList([]);
+            //setIsAllChecked(false)
+        } else {
+            let temp =[];
+             data.map((e)=>{temp.push(e.acctNo)});
+            setCheckedList(temp);
+            //setIsAllChecked(true);
+        }
+        
+        console.log("checkedList " + checkedList);
     };
 
-    const handleChkSingle =(e)=>{
+
+    //개별선택
+    const handleOnchangeEach =(e)=>{
+
+        console.log(e);
+        let acctNo = e.target.getAttribute("acctno");
+
+        if(e.target.checked){
+            setCheckedList((prev)=>[...prev,acctNo]); 
+        } else { 
+            setCheckedList(checkedList.filter((el)=> el!== acctNo))
+        }   
         
     }
-
 
     const tabData = [
         {title :'등록 출금 계좌', active: true,},
@@ -50,27 +69,34 @@ const SamplePage =()=>{
     ];
 
     const unRegistData = [
-        {title : '[신한] 쏠편한 입출금 통장', acctNo : '110-271-5454563' },
-        {title : '[신한] 내 마음대로 입출금 통장', acctNo : '110-206-214584' }
+        {title : '[신한] 쏠편한 입출금 통장', acctNo : '110-271-5454563 ' },
+        {title : '[신한] 내 마음대로 입출금 통장', acctNo : '110-206-214584 ' }
     ]
+
+    const data = activeTab===0?  registData : unRegistData;
     return (
             <div className={Style["container"]}>
-        
+                
+            {checkedList}
             <TabHeader data={tabData} fncTabClick={fncTabClick} activeTab={activeTab}></TabHeader>
                 <div className={Style["allCheck"]}>
                     <span>전체선택</span>
-                    <input type="checkbox"></input>
+                    <input type="checkbox"
+                        checked = {data.length === checkedList.length}
+                        onChange={(e)=>{handleOnchangeAll(e)}}
+                    ></input>
                 </div>
+               
                 <TabWrapper activeTab={activeTab}>
                     <TabPanel>
-                        <AccountBoard data={registData} handleChkSingle={handleChkSingle}></AccountBoard>
+                        <AccountBoard checkedList={checkedList} data={data} onChange={handleOnchangeEach}></AccountBoard>
                     </TabPanel>
                     <TabPanel>
-                         <AccountBoard data={unRegistData} handleChkSingle={handleChkSingle}></AccountBoard>
+                         <AccountBoard data={data} onChange={handleOnchangeEach}></AccountBoard>
                     </TabPanel>
-                </TabWrapper>   
+                </TabWrapper>    
                 <Notice noticeShow={noticeShow} handleNoticeOnclick={handleNoticeOnclick}/>
-                {/* //<button className={activeTab===0? Style["toRegiBtn"]  : Style["toUnRegiBtn"]} */}
+                <button className={activeTab===0? Style["toRegiBtn"]  : Style["toUnRegiBtn"]}></button>
                 <input type="checkbox" id="tell"></input>
                 <button disabled className={Style["btn"]}
                 >
@@ -110,7 +136,8 @@ function TabHeader ({data, fncTabClick,activeTab}){
 
     )
 }
-function AccountBoard({data, handleChkSingle}){
+function AccountBoard({data, onChange, isAllchecked, checkedList}){
+
 
     return (
         <div className={Style["AccountBoard-container"]}>
@@ -121,8 +148,12 @@ function AccountBoard({data, handleChkSingle}){
                             <div className={Style["AccountBoard-div"]} key={idx}>
                                 <p>{obj.title}</p>
                                 <span className={Style["AccountBoard-span"]}>{obj.acctNo}</span>
-                                <input className={Style["AccountBoard-input"]} type="checkbox"
-                                    onClick={(e)=>{handleChkSingle(e)}}
+                                <input className={Style["AccountBoard-input"]} 
+                                       type="checkbox"
+                                       //checked ={()=>{checkedList.inCludes(obj.acctNo)}}
+                                       //checked ={isAllchecked}
+                                       onChange={(e)=>{onChange(e)}}
+                                       acctno = {obj.acctNo}
                                 ></input>
                             </div>
                         )
