@@ -1,7 +1,7 @@
 import Style from './SamplePage.module.scss';
 import { ReactComponent as ArrowDown} from './../styles/images/icon-arrow-down12.svg'
 import { ReactComponent as ArrowUp } from './../styles/images/icon-arrow-up-24.svg'
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import React, { cloneElement, Children } from 'react'; 
 import classNames from 'classnames/bind';
 
@@ -15,7 +15,7 @@ const SamplePage =()=>{
     const fncTabClick = (idx)=>{
        
         setActiveTab(idx);
-        setCheckedList([]);
+       // setCheckedList([]);
     }
 
     // 알아두세요 
@@ -29,10 +29,14 @@ const SamplePage =()=>{
     //const [isAllchecked,setIsAllChecked] = useState(false);
     
 
-
+    // useEffect((prev)=>{
+    //     debugger;
+    //     if(prev !== activeTab){
+    //         setCheckedList([]);
+    //     }
+    // },[activeTab])
     //전체선택
-    const handleOnchangeAll = (e)=>{ 
-             
+    const handleOnchangeAll = useCallback((e)=>{ 
         if(!e.target.checked){
             setCheckedList([]);
         } else {
@@ -40,15 +44,11 @@ const SamplePage =()=>{
              data.map((e)=>{temp.push(e.acctNo)});
             setCheckedList(temp);
         }
-        
-        console.log("checkedList " + checkedList);
-    };
-
+    },[checkedList]);
+    
 
     //개별선택
-    const handleOnchangeEach =(e)=>{
-
-        console.log(e);
+    const handleOnchangeEach = useCallback((e)=>{
         let acctNo = e.target.getAttribute("acctno");
 
         if(e.target.checked){
@@ -56,8 +56,7 @@ const SamplePage =()=>{
         } else { 
             setCheckedList(checkedList.filter((el)=> el!== acctNo))
         }   
-        
-    }
+     },[checkedList]); 
 
     const tabData = [
         {title :'등록 출금 계좌', active: true,},
@@ -105,7 +104,7 @@ const SamplePage =()=>{
                         onChange={handleOnchangeEach}></AccountBoard>
                     </TabPanel>
                     <TabPanel>
-                         <AccountBoard data={
+                         <AccountBoard checkedList={checkedList} data={
                             data.map((obj,idx)=>{ 
                                 return {
                                     checked: checkedList.includes(obj.acctNo),
@@ -134,7 +133,7 @@ function TabHeader ({data, fncTabClick,activeTab}){
         fncTabClick(idx)
     }
     return ( 
-        <div style={{width:'300px', border:'10px', height:'40px'}}>
+        <div style={{width:'100%', border:'10px', height:'40px'}}>
             <ul 
                 className={Style["TabHeader-ul"]}
             >
