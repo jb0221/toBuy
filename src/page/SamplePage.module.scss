@@ -8,6 +8,8 @@
     //padding-left: 40px;
     margin-left: 30px;
     margin-top: 20px;
+    background-color: lightblue;
+
 }
 
 .container input {
@@ -129,4 +131,10 @@
 .btn {
     width : 100%;
     background-color: gray;
+    height: 40px;
+}
+
+.btnActive {
+    background-color: #159bd8;
+    height: 40px;
 }

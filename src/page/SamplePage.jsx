@@ -3,15 +3,19 @@ import { ReactComponent as ArrowDown} from './../styles/images/icon-arrow-down12
 import { ReactComponent as ArrowUp } from './../styles/images/icon-arrow-up-24.svg'
 import { useState, useRef, useCallback } from 'react';
 import React, { cloneElement, Children } from 'react'; 
+import classNames from 'classnames/bind';
 
 const SamplePage =()=>{ 
     
     const parentInput = useRef();
+    const cx = classNames.bind(Style);
 
     // 탭 헤더
     const [activeTab, setActiveTab] = useState(0);
     const fncTabClick = (idx)=>{
+       
         setActiveTab(idx);
+        setCheckedList([]);
     }
 
     // 알아두세요 
@@ -21,21 +25,20 @@ const SamplePage =()=>{
     }
 
 
-    const [checkedList, setCheckedList] = useState(['44546']);
+    const [checkedList, setCheckedList] = useState([]);
     //const [isAllchecked,setIsAllChecked] = useState(false);
     
+
 
     //전체선택
     const handleOnchangeAll = (e)=>{ 
              
         if(!e.target.checked){
             setCheckedList([]);
-            //setIsAllChecked(false)
         } else {
             let temp =[];
              data.map((e)=>{temp.push(e.acctNo)});
             setCheckedList(temp);
-            //setIsAllChecked(true);
         }
         
         console.log("checkedList " + checkedList);
@@ -77,7 +80,6 @@ const SamplePage =()=>{
     return (
             <div className={Style["container"]}>
                 
-            {checkedList}
             <TabHeader data={tabData} fncTabClick={fncTabClick} activeTab={activeTab}></TabHeader>
                 <div className={Style["allCheck"]}>
                     <span>전체선택</span>
@@ -89,21 +91,42 @@ const SamplePage =()=>{
                
                 <TabWrapper activeTab={activeTab}>
                     <TabPanel>
-                        <AccountBoard checkedList={checkedList} data={data} onChange={handleOnchangeEach}></AccountBoard>
+                        {/* <AccountBoard checkedList={checkedList} data={data} onChange={handleOnchangeEach}></AccountBoard> */}
+                        <AccountBoard checkedList={checkedList} data={
+                            data.map((obj,idx)=>{ 
+                                return {
+                                    checked: checkedList.includes(obj.acctNo),
+                                    title  : obj.title,
+                                    acctNo : obj.acctNo
+                                }
+                            })
+                        } 
+                      
+                        onChange={handleOnchangeEach}></AccountBoard>
                     </TabPanel>
                     <TabPanel>
-                         <AccountBoard data={data} onChange={handleOnchangeEach}></AccountBoard>
+                         <AccountBoard data={
+                            data.map((obj,idx)=>{ 
+                                return {
+                                    checked: checkedList.includes(obj.acctNo),
+                                    title  : obj.title,
+                                    acctNo : obj.acctNo
+                                }
+                            })
+                         } onChange={handleOnchangeEach}></AccountBoard>
                     </TabPanel>
                 </TabWrapper>    
-                <Notice noticeShow={noticeShow} handleNoticeOnclick={handleNoticeOnclick}/>
-                <button className={activeTab===0? Style["toRegiBtn"]  : Style["toUnRegiBtn"]}></button>
-                <input type="checkbox" id="tell"></input>
-                <button disabled className={Style["btn"]}
+                <Notice checkedList={checkedList} noticeShow={noticeShow} handleNoticeOnclick={handleNoticeOnclick}/>
+             
+              
+                <button disabled ={checkedList.length>0 ? false : true}
+                className={Style["btn"] +(checkedList.length>0 ? ` ${Style["btnActive"]}`:"")}
                 >
                     {activeTab===0 ? '등록해지': '등록'}</button>
             </div>  
     )
 }
+
 
 function TabHeader ({data, fncTabClick,activeTab}){ 
 
@@ -138,11 +161,13 @@ function TabHeader ({data, fncTabClick,activeTab}){
 }
 function AccountBoard({data, onChange, isAllchecked, checkedList}){
 
+    const [arr, setArr] = checkedList;
+    
 
     return (
         <div className={Style["AccountBoard-container"]}>
                 
-                {
+                {   
                     data.map((obj,idx)=>{
                         return (
                             <div className={Style["AccountBoard-div"]} key={idx}>
@@ -150,8 +175,8 @@ function AccountBoard({data, onChange, isAllchecked, checkedList}){
                                 <span className={Style["AccountBoard-span"]}>{obj.acctNo}</span>
                                 <input className={Style["AccountBoard-input"]} 
                                        type="checkbox"
-                                       //checked ={()=>{checkedList.inCludes(obj.acctNo)}}
-                                       //checked ={isAllchecked}
+                                       //checked ={()=>{arr.inCludes(obj.acctNo)}}
+                                       checked ={obj.checked}
                                        onChange={(e)=>{onChange(e)}}
                                        acctno = {obj.acctNo}
                                 ></input>
@@ -166,7 +191,7 @@ function AccountBoard({data, onChange, isAllchecked, checkedList}){
 }
 
 // 알아두세요
-function Notice ({noticeShow, handleNoticeOnclick}){
+function Notice ({noticeShow, handleNoticeOnclick, checkedList}){
 
     const noticeOnclick = ()=>{ 
         handleNoticeOnclick()
